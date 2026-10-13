@@ -1,152 +1,170 @@
 # B23DCCC097_LTWNC_TH01
 
-# Student Deadline Tracker — Ứng Dụng Quản Lý Deadline Bài Tập Cá Nhân
-
-Ứng dụng quản lý deadline bài tập cho sinh viên, được phát triển phục vụ học phần **Lập trình Web Nâng cao (LTWNC)**. Dự án vận dụng mẫu mực toàn bộ kiến thức của 3 buổi học trên lớp và trải qua **3 vòng Agent Review độc lập** để đảm bảo chất lượng kỹ thuật cao nhất.
+> **Học phần:** Lập trình Web Nâng cao (LTWNC)  
+> **Bài thực hành:** TH01 — Student Deadline Tracker (Ứng dụng quản lý deadline bài tập cá nhân)  
+> **Sinh viên:** B23DCCC097  
 
 ---
 
-## 🚀 Hướng Dẫn Cài Đặt & Chạy Ứng Dụng
+## 📌 Giới Thiệu Dự Án
 
-Yêu cầu môi trường: **Node.js >= 18** (khuyến nghị Node.js v20 hoặc v24) và **npm**.
+**Student Deadline Tracker** là ứng dụng web quản lý bài tập và theo dõi hạn nộp cá nhân dành cho sinh viên. Ứng dụng được thiết kế tối giản theo phong cách Monochrome chuẩn HeroUI và ngôn ngữ thiết kế Apple Human Interface Guidelines (HIG), tích hợp hai chế độ xem: **Danh sách bài tập (List View)** và **Lịch bài tập chuẩn Google Calendar (Month Grid & Schedule View)**.
 
+Dự án hiện thực trọn vẹn 100% kiến thức kỹ thuật của cả 3 buổi học và đáp ứng đầy đủ 7 yêu cầu chức năng từ đề bài.
+
+---
+
+## 🛠️ Công Nghệ Sử Dụng
+
+- **Ngôn ngữ:** TypeScript 5.8+ (Strict Mode, 100% type-safe, không sử dụng `any`)
+- **Thư viện UI & View:** React 19, HeroUI (`@heroui/react` & `@heroui/styles`)
+- **Quản lý trạng thái:** Redux Toolkit (`@reduxjs/toolkit`, `react-redux`)
+- **Kiến trúc CSS:** Tailwind CSS v4, Lucide React Icons
+- **Công cụ xây dựng & Kiểm tra:** Vite 6, Oxlint, TypeScript Compiler (`tsc`)
+
+---
+
+## 🚀 Hướng Dẫn Cài Đặt & Khởi Chạy
+
+### Yêu cầu môi trường
+- **Node.js** >= 18 (khuyến nghị Node.js 20.x hoặc mới hơn)
+- **npm** >= 9.x
+
+### Các bước thực hiện
 ```bash
-# 1. Cài đặt các gói phụ thuộc
+# 1. Cài đặt các thư viện phụ thuộc
 npm install
 
-# 2. Khởi chạy môi trường phát triển (Development)
+# 2. Khởi chạy máy chủ phát triển (Development Server)
 npm run dev
 
-# 3. Kiểm tra mã nguồn (Linter & TypeCheck)
+# 3. Kiểm tra chất lượng mã nguồn (Linter & Type Check)
 npm run lint
 npx tsc --noEmit
 
-# 4. Đóng gói bản phát hành (Production Build)
+# 4. Đóng gói sản phẩm (Production Build)
 npm run build
 ```
 
 ---
 
-## 📂 Cấu Trúc Thư Mục Chuẩn Feature-based Architecture
+## 📂 Cấu Trúc Thư Mục (Feature-based Architecture)
 
 ```
 LTWNC-TH01/
 ├── src/
-│   ├── app/                               # Cấu hình Redux trung tâm (Buổi 3)
+│   ├── app/                               # Cấu hình Redux Store tập trung (Buổi 3)
 │   │   ├── store.ts                       # configureStore với RootState & AppDispatch
 │   │   └── hooks.ts                       # Typed hooks: useAppDispatch, useAppSelector
 │   ├── types/
-│   │   └── assignment.types.ts            # TypeScript nâng cao: Generic, Utility Types, Type Guards (Buổi 1)
+│   │   └── assignment.types.ts            # TypeScript Nâng cao: Generic, Utility Types, Type Guards (Buổi 1)
 │   ├── utils/
-│   │   ├── genericHelpers.ts              # Các hàm Generic thuần tuý: filterItems, sortItems, groupBy (Buổi 1)
-│   │   └── dateUtils.ts                   # Xử lý tính toán ngày, độ lệch deadline chuẩn xác
+│   │   ├── genericHelpers.ts              # Các hàm Generic thuần túy: filterItems, sortItems, groupBy (Buổi 1)
+│   │   └── dateUtils.ts                   # Tiện ích tính toán độ lệch ngày, format ngày tiếng Việt
 │   ├── services/
 │   │   └── mockApi.ts                     # Giả lập REST API trả về dữ liệu mẫu có trễ mạng (Buổi 3 - YC7)
 │   ├── hooks/                             # Custom Hooks nâng cao (Buổi 2)
-│   │   ├── useDeadlineCountdown.ts        # Tính toán "Còn X ngày" / "Quá hạn Y ngày", urgency state
-│   │   └── useAssignmentFilter.ts         # Hook kết hợp lọc đa trạng thái, tìm kiếm và thống kê
+│   │   ├── useDeadlineCountdown.ts        # Hook tính "Còn X ngày" / "Quá hạn Y ngày", trạng thái khẩn cấp
+│   │   └── useAssignmentFilter.ts         # Hook kết hợp lọc đa trạng thái, tìm kiếm và sắp xếp
 │   ├── features/
-│   │   └── assignments/                   # Feature Module: Quản lý bài tập (Buổi 3)
+│   │   └── assignments/                   # Feature Module quản lý bài tập (Buổi 3)
 │   │       ├── assignmentsSlice.ts        # Redux Slice: reducers & extraReducers
-│   │       ├── assignmentsThunks.ts       # createAsyncThunk fetchInitialAssignments
+│   │       ├── assignmentsThunks.ts       # createAsyncThunk: fetchInitialAssignments
 │   │       └── components/
 │   │           ├── AssignmentCard/        # Compound Component Pattern (Buổi 2)
 │   │           │   ├── AssignmentCard.tsx         # Root, Header, Body, Countdown, Actions, Footer
 │   │           │   ├── AssignmentCardContext.tsx  # React Context cho Compound Component
 │   │           │   └── index.ts
-│   │           ├── AssignmentForm.tsx     # Modal Form thêm bài tập (HeroUI Button, Select, Input)
-│   │           ├── AssignmentFilters.tsx  # Thanh lọc trạng thái, tìm kiếm và sắp xếp generic
-│   │           └── AssignmentList.tsx     # Danh sách bài tập bọc bởi HOC withLoading
+│   │           ├── AssignmentCalendar.tsx # Lịch bài tập chuẩn Google Calendar (Month Grid & Schedule)
+│   │           ├── AssignmentForm.tsx     # Modal thêm bài tập tích hợp HeroUIDatePicker & Dropdown
+│   │           ├── AssignmentFilters.tsx  # Thanh lọc trạng thái, tìm kiếm và HeroUIDropdown sắp xếp
+│   │           └── AssignmentList.tsx     # Danh sách bài tập được bọc bởi HOC withLoading
 │   ├── components/
 │   │   ├── hoc/
-│   │   │   └── withLoading.tsx            # Higher-Order Component Pattern với Skeleton Screen (Buổi 2)
+│   │   │   └── withLoading.tsx            # Higher-Order Component Pattern với Skeleton Loader (Buổi 2)
 │   │   └── common/
-│   │       ├── Header.tsx                 # Header ứng dụng với logo, ngày tiếng Việt & nút nạp API
-│   │       └── ConfirmModal.tsx           # Modal xác nhận xóa bài tập chống bấm nhầm
-│   ├── App.tsx                            # Component gốc kết nối Redux và UI layout
+│   │       ├── Header.tsx                 # Header với nút tải lại API và nút thêm task hình tròn
+│   │       ├── Sidebar.tsx                # Thanh điều hướng thò thụt (Collapsible Sidebar)
+│   │       ├── HeroUIDropdown.tsx         # Dropdown chuẩn HeroUI với bo góc squircle
+│   │       ├── HeroUIDatePicker.tsx       # DatePicker popover thông minh chống tràn
+│   │       └── ConfirmModal.tsx           # Modal xác nhận xóa bài tập an toàn
+│   ├── App.tsx                            # Component gốc kết nối Redux Store, Sidebar và các View
 │   ├── main.tsx                           # Entrypoint bọc Provider Redux Store
-│   └── index.css                          # Tailwind CSS v4 & HeroUI Styles
+│   └── index.css                          # Cấu hình Tailwind CSS v4 & HeroUI Styles
 ├── package.json
 ├── vite.config.ts
-└── tsconfig.json
+├── tsconfig.json
+└── README.md
 ```
 
 ---
 
-## 🎯 Bảng Đối Chiếu Kiến Thức 3 Buổi Học
+## 🎯 Chi Tiết Hiện Thực Kiến Thức 3 Buổi Học
 
 ### 1. Buổi 1 — TypeScript Nâng Cao (Advanced TypeScript)
 - **Generics**:
-  - `ApiResponse<T>`: Đóng gói phản hồi API chuẩn với timestamp và message.
-  - `Identifiable<TId = string>`: Ràng buộc mọi thực thể có định danh `id`.
-  - `FilterPredicate<T>`: Generic callback lọc dữ liệu.
+  - `ApiResponse<T>`: Chuẩn hóa phản hồi API tổng quát có trường dữ liệu `data: T`, timestamp và message.
+  - `Identifiable<TId = string>`: Ràng buộc thực thể bắt buộc có trường định danh `id: TId`.
+  - `FilterPredicate<T>`: Generic callback predicate phục vụ việc lọc dữ liệu.
   - `AsyncState<T>`: Trạng thái bất đồng bộ tổng quát (`idle` | `loading` | `succeeded` | `failed`).
-  - `filterItems<T>(items, predicate)`: Hàm lọc generic bảo toàn tính immutability (`readonly T[]`).
-  - `sortItems<T, K extends keyof T>(items, key, order)`: Hàm sắp xếp áp dụng kỹ thuật **Generic Constraint** `K extends keyof T`.
-  - `groupBy<T, K extends PropertyKey>(items, getKey)`: Gom nhóm đối tượng generic theo thuộc tính.
+  - `filterItems<T>(items, predicate)`: Hàm generic lọc mảng thuần khiết không làm biến đổi mảng gốc (`readonly T[]`).
+  - `sortItems<T, K extends keyof T>(items, key, order)`: Hàm generic sắp xếp áp dụng kỹ thuật **Generic Constraint** `K extends keyof T`.
+  - `groupBy<T, K extends PropertyKey>(items, getKey)`: Gom nhóm đối tượng generic theo thuộc tính (được áp dụng trực tiếp trong module Calendar).
 - **Utility Types**:
-  - `Omit<T, K>`: `CreateAssignmentDto = Omit<Assignment, 'id' | 'createdAt' | 'isCompleted'>` (loại bỏ các trường tự sinh).
-  - `Pick<T, K>` & `Partial<T>`: `UpdateAssignmentDto = Pick<Assignment, 'id'> & Partial<Omit<Assignment, 'id'>>`.
-  - `Pick<T, K>`: `AssignmentSummary = Pick<Assignment, 'id' | 'title' | 'subject' | 'dueDate' | 'priority'>`.
-  - `Record<K, T>`: `PriorityMap = Record<Priority, PriorityMeta>`, `FILTER_LABELS = Record<FilterStatus, string>`.
-  - `Readonly<T>`: `ReadonlyAssignment = Readonly<Assignment>`.
+  - `Omit<T, K>`: Định nghĩa `CreateAssignmentDto = Omit<Assignment, 'id' | 'createdAt' | 'isCompleted'>` để loại bỏ các trường tự sinh khi gửi form.
+  - `Pick<T, K>` & `Partial<T>`: Định nghĩa `UpdateAssignmentDto = Pick<Assignment, 'id'> & Partial<Omit<Assignment, 'id'>>`.
+  - `Pick<T, K>`: Định nghĩa `AssignmentSummary = Pick<Assignment, 'id' | 'title' | 'subject' | 'dueDate' | 'priority'>`.
+  - `Record<K, T>`: Định nghĩa `PriorityMap = Record<Priority, PriorityMeta>` và `FILTER_LABELS = Record<FilterStatus, string>`.
+  - `Readonly<T>`: Định nghĩa `ReadonlyAssignment = Readonly<Assignment>`.
 - **Custom Type Guards** (sử dụng kiểu đầu vào an toàn `unknown`):
   - `isPriority(value: unknown): value is Priority`
   - `isFilterStatus(value: unknown): value is FilterStatus`
   - `isValidDateString(value: unknown): value is string`
   - `isAssignment(value: unknown): value is Assignment` (Composite Type Guard kiểm định toàn diện cấu trúc object).
-- **Type Safety**: Tuyệt đối **không sử dụng kiểu `any`** trong toàn bộ mã nguồn (`0 any`).
+- **Type Safety:** Tuân thủ Strict Mode của TypeScript, tuyệt đối không sử dụng kiểu `any` lỏng lẻo trong toàn bộ dự án (`0 any`).
 
 ---
 
 ### 2. Buổi 2 — React Design Patterns & HeroUI
 - **Custom Hooks Nâng Cao**:
-  - `useDeadlineCountdown(dueDate, isCompleted)`: Chuẩn hóa mốc thời gian về `00:00:00` để tính chênh lệch ngày tuyệt đối, phân loại trạng thái (`overdue`, `today`, `near`, `comfortable`), memoized với `useMemo`.
+  - `useDeadlineCountdown(dueDate, isCompleted)`: Chuẩn hóa mốc thời gian về `00:00:00` để tính chênh lệch ngày tuyệt đối, phân loại trạng thái khẩn cấp (`overdue`, `today`, `near`, `comfortable`), tối ưu hóa render qua `useMemo`.
   - `useAssignmentFilter(assignments, filterStatus, searchQuery, sortBy)`: Tích hợp thống kê số liệu tổng hợp, lọc đa tiêu chí và sắp xếp qua generic `sortItems`.
-- **React Design Patterns (Áp dụng cả 2 mẫu thiết kế)**:
+- **React Design Patterns (Áp dụng đầy đủ cả 2 mẫu thiết kế)**:
   - **Compound Component Pattern** (`AssignmentCard`):
-    - Chia nhỏ thẻ bài tập thành: `AssignmentCard.Header`, `AssignmentCard.Body`, `AssignmentCard.Countdown`, `AssignmentCard.Actions`, `AssignmentCard.Footer`.
-    - Chia sẻ dữ liệu và dispatch handlers qua `AssignmentCardContext`. Hỗ trợ cả Custom Composition lẫn Default Composition.
+    - Chia nhỏ cấu trúc thẻ bài tập thành các component con: `AssignmentCard.Header`, `AssignmentCard.Body`, `AssignmentCard.Countdown`, `AssignmentCard.Actions`, `AssignmentCard.Footer`.
+    - Chia sẻ state và action handlers đồng bộ qua `AssignmentCardContext`. Hỗ trợ cả Custom Composition linh hoạt lẫn Default Composition tiện dụng.
   - **Higher-Order Component Pattern (HOC)** (`withLoading`):
     - Khai báo chuẩn TypeScript: `withLoading<P extends object>(WrappedComponent: React.ComponentType<P>)`.
-    - Khi `isLoading: true`, hiển thị **Skeleton Screen 3 thẻ card** nhấp nháy (`animate-pulse`) kèm Spinner mượt mà.
-- **HeroUI & Tailwind CSS v4**:
-  - Giao diện thiết kế theo phong cách Modern Dashboard tinh gọn, thẩm mỹ cao.
-  - Sử dụng components chính thức của HeroUI (`@heroui/react`): `Card`, `CardHeader`, `CardContent`, `CardFooter`, `Button`.
+    - Khi `isLoading: true`, tự động hiển thị **Skeleton Screen 3 thẻ card** nhấp nháy (`animate-pulse`) kèm Spinner mượt mà.
+- **Thư viện HeroUI & Thiết kế Giao diện**:
+  - Giao diện đen trắng tối giản (Monochrome) nguyên bản của HeroUI, viền mảnh `zinc-200`, bo góc squircle chuẩn Apple.
+  - Thành phần tự xây dựng chuẩn HeroUI:
+    - `HeroUIDropdown`: Dropdown chọn sắp xếp / độ ưu tiên với bo góc `rounded-xl`, popover nổi có checkmark.
+    - `HeroUIDatePicker`: Lịch chọn ngày popover có phím tắt thông minh (Hôm nay, Ngày mai, +3 ngày, +1 tuần), tự động đảo chiều tránh bị che khuất.
+    - `Sidebar`: Thanh điều hướng thò thụt (Collapsible), khi thu gọn logo đổi thành nút mở khi hover, các nút chức năng chuẩn hình vuông bo góc.
+    - `AssignmentCalendar`: Lịch bài tập chuẩn phong cách Google Calendar với chế độ Lưới tháng (Month Grid) và Lịch trình (Schedule View).
 
 ---
 
 ### 3. Buổi 3 — Redux Toolkit + TypeScript
-- **Feature-based Structure**: Tách biệt rõ ràng tầng app (`src/app/store.ts`, `src/app/hooks.ts`) và tầng feature (`src/features/assignments/`).
-- **Typed Hooks**:
-  - `useAppDispatch`: Typed dispatch cho phép dispatch thunk an toàn.
-  - `useAppSelector`: Typed selector bảo đảm gợi ý kiểu `RootState` chính xác 100%.
-- **Async Thunk (`createAsyncThunk`)**:
-  - `fetchInitialAssignments`: Tải dữ liệu ban đầu từ Mock API với giả lập trễ mạng 700ms.
-  - Xử lý lỗi qua `rejectWithValue`.
-  - `extraReducers` sử dụng **Builder Callback Notation** (`builder.addCase(...)`) xử lý trọn vẹn 3 pha: `pending`, `fulfilled`, `rejected`.
+- **Cấu trúc Feature-based:** Tách bạch tầng cấu hình toàn cục (`src/app/store.ts`, `src/app/hooks.ts`) và tầng tính năng (`src/features/assignments/`).
+- **Typed Hooks:**
+  - `useAppDispatch`: Typed dispatch đảm bảo dispatch async thunk an toàn kiểu dữ liệu.
+  - `useAppSelector`: Typed selector bảo đảm gợi ý thuộc tính `RootState` chính xác 100%.
+- **Async Thunk (`createAsyncThunk`):**
+  - `fetchInitialAssignments`: Tải danh sách bài tập mẫu ban đầu từ Mock API với độ trễ mạng giả lập 700ms.
+  - `extraReducers`: Áp dụng cú pháp chuẩn **Builder Callback Notation** (`builder.addCase(...)`) xử lý trọn vẹn 3 trạng thái bất đồng bộ: `pending`, `fulfilled`, và `rejected`.
 
 ---
 
-## 📋 Kiểm Định 100% 7 Yêu Cầu Chức Năng Đề Bài
+## 📋 Đối Chiếu 7 Yêu Cầu Chức Năng Đề Bài
 
-| STT | Yêu cầu chức năng đề bài | Hiện thực chi tiết | Kết quả |
+| STT | Yêu cầu đề bài | Cách thức hiện thực trong dự án | Trạng thái |
 | :---: | :--- | :--- | :---: |
-| **1** | **Hiển thị danh sách bài tập**<br>(môn học, tên bài tập, hạn nộp, độ ưu tiên, trạng thái) | Hiển thị đầy đủ 5 thông tin trong `AssignmentCard` qua cấu trúc Compound Component, định dạng ngày `dd/mm/yyyy`, badge độ ưu tiên 4 màu, kèm empty state khi không có bài tập. | **ĐẠT 100%** |
-| **2** | **Thêm bài tập mới qua form**<br>(môn học, tên bài tập, hạn nộp, độ ưu tiên) | Modal `AssignmentForm` có validate bắt buộc, kiểm tra type guard `isPriority`, sử dụng `CreateAssignmentDto` (Omit), tự sinh ID duy nhất và thêm lên đầu danh sách. | **ĐẠT 100%** |
-| **3** | **Đánh dấu hoàn thành / Bỏ đánh dấu** | Nút toggle 2 chiều ("Đánh dấu xong" ↔ "Đã xong"). Phản ánh trực quan: đổi màu card xanh ngọc, gạch ngang tiêu đề, cập nhật countdown và các bộ lọc realtime. | **ĐẠT 100%** |
-| **4** | **Xoá bài tập** | Tích hợp `ConfirmModal` xác nhận trước khi xoá để đảm bảo an toàn UX. Xoá tức thì khỏi Redux store. | **ĐẠT 100%** |
-| **5** | **Lọc theo trạng thái**<br>(Tất cả / Chưa hoàn thành / Quá hạn / Đã hoàn thành) | 4 tab lọc trạng thái có badge đếm số lượng thời gian thực, kết hợp ô tìm kiếm môn học/tên bài và dropdown sắp xếp generic. | **ĐẠT 100%** |
-| **6** | **Mỗi bài tập hiển thị "Còn X ngày" hoặc "Quá hạn Y ngày"** | `useDeadlineCountdown` chuẩn hóa mốc ngày, hiển thị chính xác text `"Còn X ngày"`, `"Quá hạn Y ngày"`, `"Đến hạn hôm nay"` (kèm hiệu ứng pulse) hoặc `"Đã hoàn thành"`. | **ĐẠT 100%** |
-| **7** | **Khởi động app lấy danh sách mẫu ban đầu từ 1 API giả lập** | `mockApi.ts` cung cấp 6 bài tập mẫu có ngày tháng động, được gọi tự động khi app khởi động qua `createAsyncThunk` trong `useEffect`. Có nút "Tải lại API" trên Header. | **ĐẠT 100%** |
-
----
-
-## 🏆 Kết Quả Đánh Giá Qua 3 Vòng Agent Review
-
-| Đợt Review | Chuyên Gia Đánh Giá | Nội Dung Rà Soát | Điểm Số | Trạng Thái |
-| :---: | :--- | :--- | :---: | :---: |
-| **Vòng 1** | **Reviewer 1 — TypeScript Specialist** | Generics (`ApiResponse`, `Identifiable`, `filterItems`, `sortItems`), Utility Types (`Omit`, `Pick`, `Partial`, `Record`, `Readonly`), Custom Type Guards (`isPriority`, `isAssignment`), kiểm tra Zero `any`. | **10 / 10** | **ĐẠT XUẤT SẮC** |
-| **Vòng 2** | **Reviewer 2 — React & UI Architecture** | Custom Hooks (`useDeadlineCountdown`, `useAssignmentFilter`), Compound Component (`AssignmentCard`), HOC (`withLoading`), HeroUI component integration, Responsive UX. | **10 / 10** | **ĐẠT XUẤT SẮC** |
-| **Vòng 3** | **Reviewer 3 — Redux Toolkit & QA** | Feature-based architecture, Typed hooks (`useAppDispatch`, `useAppSelector`), Async Thunk Lifecycle, Kiểm định 100% 7 yêu cầu chức năng, Linter & Typecheck. | **10 / 10** | **ĐẠT XUẤT SẮC** |
-| **TỔNG KẾT** | **ĐÁNH GIÁ TOÀN DIỆN DỰ ÁN** | Đáp ứng 100% yêu cầu đề bài, kiến trúc sạch, trải nghiệm mượt mà, sẵn sàng nộp bài. | **10 / 10** | **ĐẠT ĐIỂM TỐI ĐA** |
+| **YC1** | **Hiển thị danh sách bài tập**<br>(môn học, tên, hạn nộp, độ ưu tiên, trạng thái) | Hiển thị đầy đủ 5 trường thông tin trong `AssignmentCard` qua cấu trúc Compound Component, ngày format chuẩn `dd/mm/yyyy`, tag độ ưu tiên, đếm ngược hạn nộp. Hỗ trợ hiển thị trên cả dạng Danh sách và Lịch tháng Google Calendar. | **Hoàn thành 100%** |
+| **YC2** | **Thêm bài tập mới qua form**<br>(môn học, tên, hạn nộp, độ ưu tiên) | Form trong modal `AssignmentForm` có validate bắt buộc, kiểm tra type guard `isPriority`, sử dụng `CreateAssignmentDto` (Omit), tích hợp `HeroUIDatePicker` và `HeroUIDropdown`. | **Hoàn thành 100%** |
+| **YC3** | **Đánh dấu hoàn thành / Bỏ đánh dấu** | Checkbox tròn chuẩn Apple Reminders cho phép toggle 2 chiều ("Đánh dấu xong" $\leftrightarrow$ "Chưa xong"). Đồng bộ ngay lập tức sang Redux Store, cập nhật style gạch ngang và trạng thái trên cả List và Calendar. | **Hoàn thành 100%** |
+| **YC4** | **Xoá bài tập** | Tích hợp `ConfirmModal` xác nhận trước khi xóa để bảo vệ dữ liệu người dùng, xóa tức thì khỏi Redux store. | **Hoàn thành 100%** |
+| **YC5** | **Lọc theo trạng thái**<br>(Tất cả / Chưa hoàn thành / Quá hạn / Đã hoàn thành) | Segmented control 4 trạng thái có badge đếm số lượng thời gian thực, kết hợp ô tìm kiếm môn học/tên bài và dropdown sắp xếp generic (`dueDate`, `title`, `createdAt`). | **Hoàn thành 100%** |
+| **YC6** | **Hiển thị "Còn X ngày" hoặc "Quá hạn Y ngày"** | `useDeadlineCountdown` chuẩn hóa mốc ngày, hiển thị chính xác text `"Còn X ngày"`, `"Quá hạn Y ngày"`, `"Hạn nộp hôm nay"`, hoặc `"Đã hoàn thành"`. | **Hoàn thành 100%** |
+| **YC7** | **Khởi động app lấy danh sách mẫu từ API giả lập** | `mockApi.ts` cung cấp 6 bài tập mẫu có ngày tháng tương đối, được tự động gọi khi app khởi chạy thông qua `createAsyncThunk` trong `useEffect`. Có nút "Tải lại API" trên Header để nạp lại dữ liệu bất kỳ lúc nào. | **Hoàn thành 100%** |
